@@ -4,41 +4,27 @@ class MyStack
     @val = []
   end
 
-  def push(value)
-    @val << value
-  end
-
-  def pop
-    @val.pop
-  end
-
-  def empty?
-    @val.empty?
-  end
-
-  def getlast
-    @val.last
-  end
-
-  def length
-    @val.length
-  end
-
   def to_s
     @val.join(' ')
   end
 
   def method_missing(meth, *args)
-    puts "It's a STACK! You can't use method #{meth}"
-    super
+    if [:push, :pop, :empty?, :length, :last].include?(meth)
+      @val.send(meth, *args)
+    else
+      puts "It's a STACK! You can't use method #{meth}"
+      super
+    end
   end
 
   def respond_to_missing?(meth)
-    meth
+    [:push, :pop, :empty?, :length, :to_s, :getlast].include?(meth)
   end
 end
 
-puts '\n', '* * * * *'.center(30)
+# How it works
+=begin
+puts "\n", '* * * * *'.center(30)
 
 my_stack = MyStack.new
 
@@ -50,7 +36,7 @@ puts my_stack.to_s # why don't working just 'puts my_stack'?
 
 puts "Emptiness: #{my_stack.empty?}"
 puts "Length = #{my_stack.length}"
-puts "Last el: #{my_stack.getlast}"
+puts "Last el: #{my_stack.last}"
 puts "Popped el: #{my_stack.pop}"
 puts "Length = #{my_stack.length}"
 
@@ -61,3 +47,4 @@ p arr
 puts "arr[1] = #{arr[1]}", '' # must be all right - 33
 print 'my_stack[5] = '
 puts my_stack[5] # must be error
+=end
